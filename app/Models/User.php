@@ -13,14 +13,22 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
+     * Menentukan nama tabel yang digunakan oleh model ini secara eksplisit.
+     *
+     * @var string
+     */
+    protected $table = 'user';
+
+    /**
      * The attributes that are mass assignable.
+     * Kolom-kolom yang boleh diisi secara massal.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'nama',
+        'nim',
+        'kelas_id',
     ];
 
     /**
@@ -29,8 +37,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
-        'remember_token',
+        // Kosongkan karena tidak ada kolom password atau remember_token
     ];
 
     /**
@@ -39,7 +46,6 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
+        // Kosongkan karena tidak ada kolom password atau email_verified_at
     ];
 }
