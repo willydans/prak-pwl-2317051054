@@ -45,7 +45,53 @@ class MataKuliahController extends Controller
             'sks' => $request->input('sks'),
         ]);
 
-        // Mengarahkan kembali ke halaman /matakuliah
+        // Mengarahkan kembali ke halaman /mata-kuliah
         return redirect()->to('/matakuliah');
     }
+
+    /**
+     * Menampilkan form untuk mengedit data mata kuliah berdasarkan ID.
+     * Mengambil data lama dan menampilkannya ke dalam form edit.
+     */
+    public function edit($id)
+    {
+        $mk = Matakuliah::findOrFail($id); // Mencari data berdasarkan ID, jika tidak ditemukan akan menampilkan error 404
+        return view('edit_mk', ['title' => 'Edit Mata Kuliah', 'mk' => $mk]); // Mengirim data yang ditemukan ke view 'edit_mk'
+    }
+
+    /**
+     * Memperbarui data mata kuliah di database.
+     * Menerima data baru dari form, melakukan validasi, dan menyimpannya.
+     */
+    public function update(Request $request, $id)
+    {
+        // Validasi data yang diterima dari form
+        $request->validate([
+            'nama_mk' => 'required',
+            'sks' => 'required|integer|min:1|max:6',
+        ]);
+
+        $mk = Matakuliah::findOrFail($id); // Mencari data yang akan diupdate
+
+        $mk->update([
+            'nama_mk' => $request->input('nama_mk'),
+            'sks' => $request->input('sks'),
+        ]);
+
+        // Mengarahkan kembali ke halaman /mata-kuliah dengan pesan sukses
+        return redirect()->to('/matakuliah')->with('success', 'Data berhasil diperbarui!');
+    }
+
+    /**
+     * Menghapus data mata kuliah dari database berdasarkan ID.
+     */
+    public function destroy($id)
+    {
+        $mk = Matakuliah::findOrFail($id); // Mencari data yang akan dihapus
+        $mk->delete(); // Menghapus data dari database
+
+        // Mengarahkan kembali ke halaman /mata-kuliah dengan pesan sukses
+        return redirect()->to('/matakuliah')->with('success', 'Data berhasil dihapus!');
+    }
 }
+
