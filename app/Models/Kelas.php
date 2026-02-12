@@ -15,4 +15,14 @@ class Kelas extends Model
     {
         return $this->hasMany(UserModel::class, 'kelas_id');
     }
+
+    /**
+     * Mengambil semua data kelas dari database.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getKelas()
+    {
+        return $this->all();
+    }
 }
